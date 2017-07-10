@@ -1,0 +1,26 @@
+{
+    "name"         : "node-red-contrib-openalpr-cloud",
+    "version"      : "0.0.1",
+    "description"  : "A Node Red node for license plate recognition (using OpenAlpr cloud service)",
+    "dependencies": {
+        "openalpr_api": "2.0.1"
+    },
+    "author": {
+        "name": "Bart Butenaers"
+    },
+    "license": "Apache-2.0",
+    "keywords": [ "node-red", "license plate", "recognition", "alpr", "openalpr", "vehicle", "car" ],
+    "bugs": {
+        "url": "https://github.com/bartbutenaers/node-red-contrib-openalpr-cloud/issues"
+    },
+    "homepage": "https://github.com/bartbutenaers/node-red-contrib-openalpr-cloud",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/bartbutenaers/node-red-contrib-openalpr-cloud.git"
+    },
+    "node-red"     : {
+        "nodes": {
+            "openalpr-cloud": "openalpr_cloud.js"
+        }
+    }
+}
