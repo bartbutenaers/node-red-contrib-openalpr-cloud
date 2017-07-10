@@ -1,0 +1,96 @@
+<!--
+  Copyright 2017, Bart Butenaers
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  http://www.apache.org/licenses/LICENSE-2.0
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<script type="text/javascript">
+    RED.nodes.registerType('openalpr-cloud',{
+        category: 'function',
+        color: '#a6bbcf',
+        defaults: {
+            country: {value:"", required: true, validate:function(value) { return value.length > 0;}},
+            secretKey: {value:"", required: true},
+            limit: {value:"0", required: true, validate:RED.validators.number()},
+            recognizeVehicle: {value:false},
+            skipEmpty: {value:true},
+            passImage: {value:false},
+            name: {value:""}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "alpr.png",
+        label: function() {
+            return this.name||"License plate";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="openalpr-cloud">
+    <div class="form-row">
+        <!--Available regions (https://github.com/openalpr/openalpr/tree/master/runtime_data/config)-->
+        <label for="node-input-country"><i class="fa fa-arrow-left"></i> Country</label>
+        <select multiple type="text" id="node-input-country" style="width:70%;">
+        <option value="au">Australia</option>
+        <option value="br">Brazil</option>
+        <option value="eu">Europe</option>
+        <option value="fr">France</option>
+        <option value="gb">Great Britain</option>
+        <option value="kr">Korean</option>
+        <option value="kr2">Korean (2-line)</option>
+        <option value="mx">Mexico</option>
+        <option value="sg">Singapore</option>
+        <option value="us">United states</option>
+        <option value="vn2">Vietnamese (2-line)</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-secretKey"><i class="fa fa-key"></i> Secret key</label>
+        <input type="text" id="node-input-secretKey" placeholder="Key">
+    </div>
+    <div class="form-row">
+        <label for="node-input-limit"><i class="fa fa-level-down"></i> Limit</label>
+        <input type="text" id="node-input-limit" placeholder="Key">
+    </div>
+    <div class="form-row">
+        <input type="checkbox" id="node-input-recognizeVehicle" style="display: inline-block; width: auto; vertical-align: top;">
+        <label for="node-input-recognizeVehicle" style="width: 70%;"> Recognize vehicle (1 extra credit)</label>
+    </div>
+    <div class="form-row">
+        <input type="checkbox" id="node-input-skipEmpty" style="display: inline-block; width: auto; vertical-align: top;">
+        <label for="node-input-skipEmpty" style="width: 70%;"> Only send output msg when plates found</label>
+    </div>
+    <div class="form-row">
+        <input type="checkbox" id="node-input-passImage" style="display: inline-block; width: auto; vertical-align: top;">
+        <label for="node-input-passImage" style="width: 70%;"> Pass image to output msg</label>
+    </div>
+    </br>
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="openalpr-cloud">
+    <p>A Node Red node for license plate recognition (using <a href="http://www.openalpr.com/">OpenAlpr</a> cloud service).</p>
+    <p>Before this node can be used, one should sign up to create an account.  A free account includes 2000 recognitions.  When more recognitions are required, multiple <a href="http://www.openalpr.com/cloud-api.html">payment plans</a> are available.</p>
+    <p><strong>Country:</strong><br/>
+    One or more countries can be selected.  Each country or region has it's own license plate styles (e.g. margin between the characters and the border).</p>
+    <p><strong>Secret key:</strong><br/>
+    The secret key is available on your <a href="https://cloud.openalpr.com/cloudapi/">account</a>.  This is required to identify yourself on the cloud service.</p>
+    <p><strong>Limit:</strong><br/>
+    Limit the number of license plates we want to receive.  Indeed a license plate cannot be recognized with 100% certainty: therefore a number of possible license plate texts will be returned (with descending certainty). A value of <code>0</code> means no limit.</p>
+    <p><strong>Recognize vehicle:</strong><br/>
+    By enabling this option, the vehicle (brand, model, color) will be recognized.  This will cost one extra credit!</p>
+    <p><strong>Only send output msg when plates found:</strong><br/>
+    By enabling this option, the output msg will only be send when the input image contains number plates.  When disabling this option, the output can contains an empty <code>msg.payload.vehicles</code> list.</p>
+    <p><strong>Pass image:</strong><br/>
+    By enabling this option, the input image will also be passed in the output <code>msg.image</code>.</p>
+</script>
+
