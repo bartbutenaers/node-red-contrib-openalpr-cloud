@@ -33,7 +33,7 @@ Since the number of (free) recognitions per month is rather limited, you might w
 
 ### Output message
 The output message contains following fields (example for image containing 1 single vehicle):
-```json
+```
 {
    "payload":{
       "vehicles":[                              --> One element in this list for every vehicle in the input image
